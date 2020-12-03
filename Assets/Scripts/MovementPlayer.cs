@@ -3,9 +3,11 @@
 public class MovementPlayer : MonoBehaviour
 {
     public float speed;
+
+    public static MovementPlayer Singleton;
     void Start()
     {
-
+        Singleton = this;
     }
 
     void Update()
