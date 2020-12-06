@@ -5,6 +5,8 @@ public class MovementPlayer : MonoBehaviour
     public float speed;
 
     public static MovementPlayer Singleton;
+
+    public bool playGame = false;
     void Start()
     {
         Singleton = this;
@@ -12,6 +14,9 @@ public class MovementPlayer : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
+        if (playGame == true)
+        {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
+        }
     }
 }

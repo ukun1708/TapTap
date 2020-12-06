@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    string nameTag;
+
+    public enum MoveDirection
+    {
+        Left,
+        Right,
+        Jump
+    }
+
+    public MoveDirection[] moves;
 
     public float force;
+
+    int checkTurn = 0;
 
     Rigidbody rb;
 
@@ -17,28 +27,28 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
-            if (nameTag == "RightTurn")
+            switch (moves[checkTurn])
             {
-                transform.rotation *= Quaternion.Euler(Vector3.up * 90f);
-            }
+                case MoveDirection.Left:
 
-            else if (nameTag == "LeftTurn")
-            {
-                transform.rotation *= Quaternion.Euler(Vector3.up * -90f);
-            }
+                    transform.rotation *= Quaternion.Euler(Vector3.up * -90f);
 
-            else if (nameTag == "Jump")
-            {
-                rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+                    break;
+                case MoveDirection.Right:
+
+                    transform.rotation *= Quaternion.Euler(Vector3.up * 90f);
+
+                    break;
+                case MoveDirection.Jump:
+
+                    rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+                    break;
+                default:
+                    break;
             }
+            checkTurn++;
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        nameTag = other.tag;
     }
 }
