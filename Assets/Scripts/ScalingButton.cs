@@ -9,12 +9,6 @@ public class ScalingButton : MonoBehaviour
 
     public bool scalingButton = true;
 
-    float timeOfTravel = 5f;
-
-    float currentTime = 0f;
-
-    float normalizedValue;
-
     public float speedScale;
 
     Vector3 currentScale;
@@ -22,9 +16,9 @@ public class ScalingButton : MonoBehaviour
     Vector3 targetScale;
     void Start()
     {
-        currentScale = new Vector3(1.5f, 1.5f, 1.5f);
+        currentScale = new Vector3(1f, 1f, 1f);
 
-        targetScale = new Vector3(1.5f, 1.5f, 1.5f);
+        targetScale = new Vector3(1.1f, 1.1f, 1.1f);
 
         StartCoroutine(ScalerButton());
     }
@@ -32,26 +26,21 @@ public class ScalingButton : MonoBehaviour
 
     IEnumerator ScalerButton()
     {
-        while (currentTime <= timeOfTravel)
+        while (true)
         {
-            currentTime += Time.deltaTime;
+            for (float i = 0.01f; i < speedScale; i++)
+            {
+                playButton.GetComponent<RectTransform>().localScale = Vector3.Lerp(currentScale, targetScale, Mathf.Min(1f, i / speedScale));
 
-            normalizedValue = currentTime / timeOfTravel;
+                yield return null;
+            }
 
-            playButton.GetComponent<RectTransform>().localScale = Vector3.Lerp(currentScale, targetScale, normalizedValue * speedScale);
+            for (float i = 0.01f; i < speedScale; i++)
+            {
+                playButton.GetComponent<RectTransform>().localScale = Vector3.Lerp(targetScale, currentScale, Mathf.Min(1f, i / speedScale));
 
-            currentTime = 0f;
+                yield return null;
+            }
         }
-
-        while (currentTime <= timeOfTravel)
-        {
-            currentTime += Time.deltaTime;
-
-            normalizedValue = currentTime / timeOfTravel;
-
-            playButton.GetComponent<RectTransform>().localScale = Vector3.Lerp(targetScale, currentScale, normalizedValue * speedScale);
-        }
-
-        yield return new WaitForSeconds(0f);
     }
 }

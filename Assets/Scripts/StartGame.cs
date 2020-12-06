@@ -13,6 +13,8 @@ public class StartGame : MonoBehaviour
 
     public GameObject logoImg;
 
+    public GameObject mainMenu;
+
     public GameObject bottomButtons;
 
     Vector3 startPositionLogo;
@@ -54,4 +56,13 @@ public class StartGame : MonoBehaviour
             yield return null;
         }
     }
+
+    public void ClickPlayButton()
+    {
+        mainMenu.SetActive(false);
+
+        MovementPlayer.Singleton.playGame = true;
+    }
+
+
 }
