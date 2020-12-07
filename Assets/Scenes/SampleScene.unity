@@ -8524,7 +8524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1351522198}
-  smooth: 5
+  smooth: 4
   offset: {x: 0, y: 0, z: 0}
   speedRotation: 3
   cam: {fileID: 1825714450}
