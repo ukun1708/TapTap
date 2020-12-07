@@ -37,6 +37,10 @@ public class DestroyPlayer : MonoBehaviour
                 {
                     for (int z = 0; z < zSize; z++)
                     {
+                        StartGame.Singleton.gameSound.SetActive(false);
+
+                        StartGame.Singleton.loseSound.SetActive(true);
+
                         Instantiate(cubes, new Vector3(transform.position.x + (offset.x * x), transform.position.y + (offset.y * y), transform.position.z + (offset.z * z)), Quaternion.identity);
 
                         gameObject.GetComponent<MeshRenderer>().enabled = false;

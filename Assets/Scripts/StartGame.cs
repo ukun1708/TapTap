@@ -22,6 +22,10 @@ public class StartGame : MonoBehaviour
 
     public GameObject loseMenu;
 
+    public GameObject gameSound;
+
+    public GameObject loseSound;
+
     // позиции главного меню
 
     Vector3 startPositionLogo;
@@ -40,6 +44,12 @@ public class StartGame : MonoBehaviour
 
     void Start()
     {
+        gameSound.SetActive(true);
+
+        loseSound.SetActive(false);
+
+        mainMenu.SetActive(true);
+
         Singleton = this;
 
         startPositionLogo = logoImg.GetComponent<RectTransform>().anchoredPosition;
