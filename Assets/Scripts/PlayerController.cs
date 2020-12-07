@@ -20,35 +20,44 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
 
+    public bool enableControl = false;
+
+    public static PlayerController Singleton;
+
     private void Start()
     {
+        Singleton = this;
+
         rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (enableControl == true)
         {
-            switch (moves[checkTurn])
+            if (Input.GetMouseButtonDown(0))
             {
-                case MoveDirection.Left:
+                switch (moves[checkTurn])
+                {
+                    case MoveDirection.Left:
 
-                    transform.rotation *= Quaternion.Euler(Vector3.up * -90f);
+                        transform.rotation *= Quaternion.Euler(Vector3.up * -90f);
 
-                    break;
-                case MoveDirection.Right:
+                        break;
+                    case MoveDirection.Right:
 
-                    transform.rotation *= Quaternion.Euler(Vector3.up * 90f);
+                        transform.rotation *= Quaternion.Euler(Vector3.up * 90f);
 
-                    break;
-                case MoveDirection.Jump:
+                        break;
+                    case MoveDirection.Jump:
 
-                    rb.AddForce(Vector3.up * force, ForceMode.Impulse);
-                    break;
-                default:
-                    break;
+                        rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+                        break;
+                    default:
+                        break;
+                }
+                checkTurn++;
             }
-            checkTurn++;
-        }
+        }        
     }
 }

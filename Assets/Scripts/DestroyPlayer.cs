@@ -14,8 +14,14 @@ public class DestroyPlayer : MonoBehaviour
 
     Vector3 offset;
 
+    public bool lose = false;
+
+    public static DestroyPlayer Singleton;
+
     private void Start()
     {
+        Singleton = this;
+
         offset = cubes.GetComponent<MeshRenderer>().bounds.size;
 
         cubes.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
@@ -40,6 +46,8 @@ public class DestroyPlayer : MonoBehaviour
                         Debug.Log("Игроку пиздец");
 
                         StartCoroutine(CameraScaler());
+
+                        lose = true;
                     }
                 }
             }
@@ -51,6 +59,10 @@ public class DestroyPlayer : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         FollowCamera.Singleton.offset = new Vector3(0f, 5f, 0f);
+
+        StartGame.Singleton.loseMenu.SetActive(true);
+
+        PlayerController.Singleton.enableControl = false;
 
         yield return null;
     }

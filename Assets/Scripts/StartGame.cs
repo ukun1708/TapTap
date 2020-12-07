@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
@@ -11,11 +12,17 @@ public class StartGame : MonoBehaviour
 
     float normalizedValue;
 
+    // ui главного меню
+
     public GameObject logoImg;
 
     public GameObject mainMenu;
 
     public GameObject bottomButtons;
+
+    public GameObject loseMenu;
+
+    // позиции главного меню
 
     Vector3 startPositionLogo;
 
@@ -25,10 +32,16 @@ public class StartGame : MonoBehaviour
 
     Vector3 endPositiobottomButtons;
 
+    
+
     public float speedMove;
+
+    public static StartGame Singleton;
 
     void Start()
     {
+        Singleton = this;
+
         startPositionLogo = logoImg.GetComponent<RectTransform>().anchoredPosition;
 
         endPositioLogo = new Vector3(0f, -1280f);
@@ -37,9 +50,11 @@ public class StartGame : MonoBehaviour
 
         endPositiobottomButtons = new Vector3(0f, 260f);
 
+
         StartCoroutine(LerpObject());
+        
     }
-    
+
     IEnumerator LerpObject()
     {
         while (currentTime <= timeOfTravel)
@@ -62,6 +77,13 @@ public class StartGame : MonoBehaviour
         mainMenu.SetActive(false);
 
         MovementPlayer.Singleton.playGame = true;
+
+        PlayerController.Singleton.enableControl = true;
+    }
+
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 

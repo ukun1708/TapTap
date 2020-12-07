@@ -11,36 +11,29 @@ public class ScalingButton : MonoBehaviour
 
     public float speedScale;
 
-    Vector3 currentScale;
+    Vector3 startScale = new Vector3(1f, 1f, 1f);
 
-    Vector3 targetScale;
+    Vector3 endScale = new Vector3(1.1f, 1.1f, 1.1f);
+
+    RectTransform rect;
+
     void Start()
     {
-        currentScale = new Vector3(1f, 1f, 1f);
-
-        targetScale = new Vector3(1.1f, 1.1f, 1.1f);
+        rect = playButton.GetComponent<RectTransform>();
 
         StartCoroutine(ScalerButton());
     }
 
 
-    IEnumerator ScalerButton()
+    public IEnumerator ScalerButton()
     {
         while (true)
         {
-            for (float i = 0.01f; i < speedScale; i++)
-            {
-                playButton.GetComponent<RectTransform>().localScale = Vector3.Lerp(currentScale, targetScale, Mathf.Min(1f, i / speedScale));
 
-                yield return null;
-            }
+            rect.localScale = Vector3.Lerp(startScale, endScale, Mathf.Sin(Time.time * speedScale) * 0.5f + 0.5f);
 
-            for (float i = 0.01f; i < speedScale; i++)
-            {
-                playButton.GetComponent<RectTransform>().localScale = Vector3.Lerp(targetScale, currentScale, Mathf.Min(1f, i / speedScale));
+            yield return null;
 
-                yield return null;
-            }
         }
     }
 }
