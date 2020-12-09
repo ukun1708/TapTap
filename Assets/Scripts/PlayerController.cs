@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     public float force;
 
-    int checkTurn = 0;
+    public int checkTurn = 0;
 
     Rigidbody rb;
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Advertisements;
+using UnityEngine.Monetization;
 
 public class DestroyPlayer : MonoBehaviour
 {
@@ -18,8 +20,17 @@ public class DestroyPlayer : MonoBehaviour
 
     public static DestroyPlayer Singleton;
 
-    private void Start()
+    int deadCount;
+
+    void Start()
     {
+        deadCount = 0;
+
+        if (Advertisement.isSupported)
+        {
+            Advertisement.Initialize("3930947", false);
+        }
+
         Singleton = this;
 
         offset = cubes.GetComponent<MeshRenderer>().bounds.size;
@@ -31,27 +42,45 @@ public class DestroyPlayer : MonoBehaviour
     {
         if (other.tag == "playerDied")
         {
+            deadCount++;
+
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+            gameObject.GetComponent<BoxCollider>().enabled = false;
+
+            MovementPlayer.Singleton.speed = 0f;
+
+            Debug.Log("Игроку пиздец");
+
+            StartGame.Singleton.gameSound.SetActive(false);
+
+            StartGame.Singleton.loseSound.SetActive(true);
+
             for (int x = 0; x < xSize; x++)
             {
                 for (int y = 0; y < ySize; y++)
                 {
                     for (int z = 0; z < zSize; z++)
                     {
-                        StartGame.Singleton.gameSound.SetActive(false);
 
-                        StartGame.Singleton.loseSound.SetActive(true);
+                        var pieces = Instantiate(cubes, new Vector3(transform.position.x + (offset.x * x), transform.position.y + (offset.y * y), transform.position.z + (offset.z * z)), Quaternion.identity);
 
-                        Instantiate(cubes, new Vector3(transform.position.x + (offset.x * x), transform.position.y + (offset.y * y), transform.position.z + (offset.z * z)), Quaternion.identity);
+                        Destroy(pieces, Random.Range(2f, 3f));                        
 
-                        gameObject.GetComponent<MeshRenderer>().enabled = false;
+                        if (deadCount == 5)
+                        {
+                            if (Advertisement.IsReady())
+                            {
+                                Advertisement.Show("video");
+                            }
 
-                        MovementPlayer.Singleton.speed = 0f;
-
-                        Debug.Log("Игроку пиздец");
+                            deadCount = 0;
+                        }
 
                         StartCoroutine(CameraScaler());
 
                         lose = true;
+
                     }
                 }
             }
@@ -70,5 +99,4 @@ public class DestroyPlayer : MonoBehaviour
 
         yield return null;
     }
-
 }

@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - RightTurn
-  - LeftTurn
   - Jump
+  - playerDied
+  - Acceleration
   layers:
   - Default
   - TransparentFX

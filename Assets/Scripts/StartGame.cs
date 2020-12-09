@@ -22,9 +22,16 @@ public class StartGame : MonoBehaviour
 
     public GameObject loseMenu;
 
+    public GameObject WinMenu;
+
     public GameObject gameSound;
 
     public GameObject loseSound;
+
+
+    public GameObject player;
+
+    Vector3 startPositionPlayer;
 
     // позиции главного меню
 
@@ -44,11 +51,15 @@ public class StartGame : MonoBehaviour
 
     void Start()
     {
+        startPositionPlayer = new Vector3(0f, 0.5f, 0f);
+
         gameSound.SetActive(true);
 
         loseSound.SetActive(false);
 
         mainMenu.SetActive(true);
+
+        WinMenu.SetActive(false);
 
         Singleton = this;
 
@@ -93,7 +104,27 @@ public class StartGame : MonoBehaviour
 
     public void RestartButton()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        loseMenu.SetActive(false);
+
+        FollowCamera.Singleton.offset = new Vector3(0f, 0f, 0f);
+
+        player.transform.position = startPositionPlayer;
+
+        player.transform.rotation = Quaternion.Euler(Vector3.zero);
+
+        player.GetComponent<MeshRenderer>().enabled = true;
+
+        PlayerController.Singleton.enableControl = true;
+
+        PlayerController.Singleton.checkTurn = 0;
+
+        MovementPlayer.Singleton.speed = 8f;
+
+        gameSound.SetActive(true);
+
+        loseSound.SetActive(false);
+
+        DestroyPlayer.Singleton.gameObject.GetComponent<BoxCollider>().enabled = true;
     }
 
 
